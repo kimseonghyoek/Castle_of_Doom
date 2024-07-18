@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <Windows.h>
 #include <stdlib.h>
 
 // player 구조체
@@ -39,12 +40,12 @@ struct enemy {
 void showLayout();
 void runAway();
 int attack(float damege, int hp);
-char* selectItem(char *itmes);
+char* selectItems(char *itmes);
 
 
 int main(void) {
-	//showLayout();
-	runAway();
+	showLayout();
+//	runAway();
 	
 	
 	
@@ -52,44 +53,58 @@ int main(void) {
 	return 0;
 }
 
-
-
 // 게임 실행시 보여줄 레이아웃
 void showLayout() {
-	printf("┌────────────────────────────────────────────────────────────┐────────────────────┐\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("│                                                            │                    │\n");
-	printf("└────────────────────────────────────────────────────────────┘────────────────────┘\n");
+	SetConsoleTitle(TEXT("파멸의 성 - Castle of Doom"));
+	printf("┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐───────────────────────────────────────────┐\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                   ##                 ###                                                                                        │                                           │\n");
+	printf("│                                             ####              ##  ##                ##     ####                                                                                 │                                           │\n");
+	printf("│                                            ##     ###    ### #### ##  ###     ###  #####   ## ##   ###   ###  # ## ##                                                           │                                           │\n");
+	printf("│                                           ##        ##  ##    ##  ## ## ##   ## ##  ##     ##  ## ## ## ## ## ## ## ##                                                          │                                           │\n");
+	printf("│                                           ##      ####  ###   ##  ## ## ##   ## ##  ##     ##  ## ## ## ## ## ## ## ##                                                          │                                           │\n");
+	printf("│                                           ##     ## ##   ###  ##  ## #####   ## ##  ##     ##  ## ## ## ## ## ## ## ##                                                          │                                           │\n");
+	printf("│	                                     ##    ## ##    ##  ##  ## ##      ## ##  ##     ## ##  ## ## ## ## ## ## ##                                                          │                                           │\n");
+	printf("│                                             ####  ## ## ###    ## ##  ####    ###   ##     ####    ###   ###  ## ## ##                                                          │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 ├───────────────────────────────────────────┤\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘───────────────────────────────────────────┘\n");
 };
-
+                                                                                                                                           
 // 전투시 도망(0~9중에서 6까지는 도망이 가능하고 6보다 크면 도망에 못가는 확률)
 void runAway() {
 	srand(time(NULL));
