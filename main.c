@@ -34,7 +34,45 @@ struct enemy {
 	char* mop_category;
 };
 
+void showLayout();
+
 int main(void) {
-	
+	showLayout();
 	return 0;
 }
+
+// 게임 실행시 보여줄 레이아웃
+void showLayout() {
+	printf("┌────────────────────────────────────────────────────────────┐────────────────────┐\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("│                                                            │                    │\n");
+	printf("└────────────────────────────────────────────────────────────┘────────────────────┘\n");
+};
