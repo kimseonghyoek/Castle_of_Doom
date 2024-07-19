@@ -60,6 +60,7 @@ char* selectItems(char *itmes);
 int keyControl();
 int selectMenu();
 int selectPlayer(struct player *p);
+void getBag(struct player *p);
 
 
 // 메인 함수
@@ -75,7 +76,13 @@ int main(void) {
 		showLayout();
 		selectPlayer(players);
 		showingPlayerInfo(players);
-		selectMenu();
+		int smenu = selectMenu();
+		if (smenu == 1) {
+			printf("총 공격~");
+		}
+		else if (smenu == 2) {
+			runAway();
+		}
 	}
 }
 
@@ -110,7 +117,7 @@ int selectMenu() {
 			break;
 
 		case SPACE:
-			return y - 52;
+			return y - 53;
 		}
 	}
 }
@@ -152,7 +159,14 @@ int selectPlayer(struct player *p) {
 	p->luck = 1.1;
 	p->item = "잭나이프";
 	p->bags = p->item;
+	x = 45;
+	y = 24;
+	printf("\n");
 	return 0;
+}
+
+void getBags(struct player* p) {
+
 }
 
 // 현재 능력치 보여주기.
@@ -179,18 +193,22 @@ void showingPlayerInfo(struct player *p) {
 	printf("레벨: %d.LV \n", p->level);
 	gotoxy(x, y + 6);
 	printf("경험치: %.5f\n", p->exp);
+	getBags(p);
 }
 
 // 전투시 도망(0~9중에서 6까지는 도망이 가능하고 6보다 크면 도망에 못가는 확률)
 void runAway() {
+	int x = 80;
+	int y = 50;
 	srand(time(NULL));
 	int random = 0;
 	random = rand() % 9;
-	printf("%d\n", random);
 	if (random <= 6) {
+		gotoxy(x, y);
 		printf("무사히 도망쳤습니다.");
 	}
 	else {
+		gotoxy(x, y);
 		printf("도망가지 못하였습니다.");
 	}
 };
@@ -207,7 +225,7 @@ char* selectItems(char* items) {
 
 // 키보드 컨트롤 함수
 int keyControl() {
-	char temp = getch();
+	char temp = _getch();
 
 	if (temp == 'w' || temp == 'W') {
 		return UP;
@@ -373,16 +391,16 @@ void showLayout() {
 	printf("│                                                                                                                                                                                 │                                           │\n");
 	printf("│                                                                                                                                                                                 │                                           │\n");
 	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 ├───────────────────────────────────────────┤\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
-	printf("│                                                                                                                                                                                 │                                           │\n");
+	printf("│                                                        ┏                                                              ┓                                                         │                                           │\n");
+	printf("│                                                        ┃                                                              ┃                                                         │                                           │\n");
+	printf("│                                                        ┃                                                              ┃                                                         │                                           │\n");
+	printf("│                                                        ┃                                                              ┃                                                         │                                           │\n");
+	printf("│                                                        ┃                                                              ┃                                                         ├───────────────────────────────────────────┤\n");
+	printf("│                                                        ┃                                                              ┃                                                         │                                           │\n");
+	printf("│                                                        ┃                                                              ┃                                                         │                                           │\n");
+	printf("│                                                        ┃                                                              ┃                                                         │                                           │\n");
+	printf("│                                                        ┃                                                              ┃                                                         │                                           │\n");
+	printf("│                                                        ┃                                                              ┃                                                         │                                           │\n");
+	printf("│                                                        ┗                                                              ┛                                                         │                                           │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘───────────────────────────────────────────┘\n");
 };
