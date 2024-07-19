@@ -241,7 +241,7 @@ int selectPlayer(struct player *p) {
 	p->exp = 0.0;
 	p->luck = 1.1;
 	p->item = "잭나이프";
-	p->bags[0][0] = p->item;
+	p->bags[0][0] = &p->item;
 	x = 45;
 	y = 24;
 	printf("\n");
@@ -274,8 +274,8 @@ void getBags(struct player* p) {
 	gotoxy(x, y);
 	printf("아이템 목록\n");
 	for (int i = 0; i < sizeof(p->bags) / sizeof(char); i++) {
-	//	printf("%d", i);
-		printf("%s \n", &p->bags[0][i]);
+		gotoxy(x, y+i+1);
+		printf("%d: %s%s \n", i+1, &p->bags[0][i]);
 	}
 }
 
