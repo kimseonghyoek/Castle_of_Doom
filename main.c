@@ -20,7 +20,7 @@ struct player {
 	float luck;
 	double exp;
 	char* item;
-	char* bags;
+	char bags[1][10];
 };
 
 // 아이템 구조체
@@ -53,14 +53,20 @@ static void gotoxy(int x, int y) {
 // 함수 선언부
 int startLayout();
 void showLayout();
-void runAway();
+int runAway();
 void showingPlayerInfo(struct player *p);
-int attack(int damege, int hp);
+int attack(struct plyaer *p, struct enemy *e, int damege, int hp);
 char* selectItems(char *itmes);
 int keyControl();
 int selectMenu();
 int selectPlayer(struct player *p);
-void getBag(struct player *p);
+void getBags(struct player *p);
+void setEnemy(struct enemy *e);
+struct enemy createEnemy(int hp, int level, int attack, const char* mop_item, const char* mop_category);
+void printEnemy(struct enemy* e);
+int enemyAttack(struct enemy* e, int player_hp);
+void freeEnemy(struct enemy* e);
+void Battle(struct player *p, struct player *e);
 
 
 // 메인 함수
@@ -72,34 +78,42 @@ int main(void) {
 	}
 	else if(smenuCode == 1) {
 		system("cls");
-		struct player(*players) = malloc(sizeof(struct player));
 		showLayout();
+		struct player(*players) = malloc(sizeof(struct player));
+		struct enemy(*mop) = malloc(sizeof(struct enemy));
+		setEnemy(mop);
 		selectPlayer(players);
 		showingPlayerInfo(players);
-		int smenu = selectMenu();
-		if (smenu == 1) {
-			printf("총 공격~");
-		}
-		else if (smenu == 2) {
-			runAway();
-		}
+		Battle(players, mop);
 	}
+	return 0;
+}
+
+void setEnemy(struct enemy* e) {
+	e->level = 1;
+	e->hp = 2;
+	e->attack = 1;
+	e->mop_item = NULL;
+	e->mop_category = "small";
 }
 
 int selectMenu() {
 	int x, y = 0;
-	x = 183;
+	x = 192;
+	y = 53;
+	gotoxy(x, y);
+	printf("   1. 공격하기.    \n");
 	y = 54;
 	gotoxy(x, y);
-	printf("   1. 전투준비.    \n");
-	gotoxy(x, y + 1);
 	printf("   2. 도망간다.    \n");
+	gotoxy(x, y + 1);
+	printf("   3. 가방열기.    \n");
 
 	while (1) {
 		int n = keyControl();
 		switch (n) {
 		case UP:
-			if (y > 54) {
+			if (y > 53) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, --y);
@@ -117,10 +131,79 @@ int selectMenu() {
 			break;
 
 		case SPACE:
-			return y - 53;
+			return y - 52;
 		}
 	}
 }
+
+void Battle(struct player *p, struct enemy *e) {
+	int smenu = selectMenu();
+	int x = 80;
+	int y = 50;
+
+	char vs = ' ';
+
+	if (smenu == 1) {
+		int result = attack(p, e, p->attack, e->hp);
+
+		if (result == 0) {
+			system("cls");
+			printf("승리!");
+		}
+		else if (result == 1) {
+			system("cls");
+			printf("패배");
+		}
+	}
+	else if (smenu == 2) {
+		int run = runAway();
+		if (run == 0) {
+			gotoxy(x, y);
+			printf("무사히 도망쳤습니다.");
+		}
+		else if (run == 1) {
+			gotoxy(x, y);
+			printf("도망가지 못하였습니다.");
+			attack(p, e, e->attack, p->hp);
+		}
+	}
+	else if (smenu == 3) {
+		getBags(p);
+	}
+
+	// 이겼을 경우
+	if (vs == 'W') {
+		if (e->mop_category == "small") {
+			system("cls");
+			printf("전투에서 승리!\n");
+			p->exp = p->exp + 1.7;
+			if (p->exp >= 100) {
+				printf("축하합니다. 레벨이 올랐습니다.");
+				p->level = p->level + 1;
+			}
+		}
+		else if (e->mop_category == "middle") {
+			p->exp = p->exp + 5.4;
+			if (p->exp >= 100) {
+				printf("축하합니다. 레벨이 올랐습니다.");
+				p->level = p->level + 1;
+			}
+		}
+		else if (e->mop_category == "big") {
+			p->exp = p->exp + 15;
+			if (p->exp >= 100) {
+				printf("축하합니다. 레벨이 올랐습니다.");
+				p->level = p->level + 1;
+			}
+		}
+	}
+	else if (vs == 'L') {
+		system("cls");
+		printf("GAME OVER");
+	}
+}
+
+
 
 // 캐릭터 유형 선택 -> 사용자로 입력받고 보이는 입력값 지워버리기
 int selectPlayer(struct player *p) {
@@ -158,15 +241,42 @@ int selectPlayer(struct player *p) {
 	p->exp = 0.0;
 	p->luck = 1.1;
 	p->item = "잭나이프";
-	p->bags = p->item;
+	p->bags[0][0] = p->item;
 	x = 45;
 	y = 24;
 	printf("\n");
 	return 0;
 }
 
+struct enemy createEnemy(int hp, int level, int attack, const char* mop_item, const char* mop_category) {
+	struct enemy (*e) = malloc(sizeof(struct enemy));
+	e->hp = hp;
+	e->level = level;
+	e->attack = attack;
+	size_t item_len = strlen(mop_item) + 1;
+	size_t category_len = strlen(mop_category) + 1;
+	e->mop_item = (char*)malloc(strlen(mop_item) + 1);
+	if (e->mop_item != NULL) {
+		strcpy_s(e->mop_item, item_len, mop_item);
+	}
+	e->mop_category = malloc(strlen(mop_category) + 1);
+	if (e->mop_category != NULL) {
+		strcpy_s(e->mop_category, category_len, mop_category);
+	}
+	return *e;
+}
 void getBags(struct player* p) {
-
+	int x = 185;
+	int y = 25;
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	gotoxy(x, y);
+	printf("아이템 목록\n");
+	for (int i = 0; i < sizeof(p->bags) / sizeof(char); i++) {
+	//	printf("%d", i);
+		printf("%s \n", &p->bags[0][i]);
+	}
 }
 
 // 현재 능력치 보여주기.
@@ -193,29 +303,34 @@ void showingPlayerInfo(struct player *p) {
 	printf("레벨: %d.LV \n", p->level);
 	gotoxy(x, y + 6);
 	printf("경험치: %.5f\n", p->exp);
-	getBags(p);
 }
 
 // 전투시 도망(0~9중에서 6까지는 도망이 가능하고 6보다 크면 도망에 못가는 확률)
-void runAway() {
-	int x = 80;
-	int y = 50;
+int runAway() {
 	srand(time(NULL));
 	int random = 0;
 	random = rand() % 9;
 	if (random <= 6) {
-		gotoxy(x, y);
-		printf("무사히 도망쳤습니다.");
+		return 0;
 	}
 	else {
-		gotoxy(x, y);
-		printf("도망가지 못하였습니다.");
+		return 1;
 	}
 };
 
 // 전투시 공격(parameter로 현재 공격력과 공격받는 상대의 체력을 받음. 후에 공격을 받은 후의 체력을 반환함.)
-int attack(int damege, int hp) {
-	return 0;
+int attack(struct player *p, struct enemy *e, int damege, int hp) {
+	damege = (int)p->attack;
+	e->hp = e->hp - damege;
+	damege = (int)e->attack;
+	p->hp = p->hp - damege;
+;
+	if (e->hp == 0) {
+		return 0;
+	}
+	else if (p->hp == 0) {
+		return 1;
+	}
 }
 
 // 현재 가지고 있는 아이템 중 선택
